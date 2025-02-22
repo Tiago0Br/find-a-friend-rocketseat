@@ -1,0 +1,24 @@
+{
+  "name": "find-a-friend",
+  "version": "1.0.0",
+  "description": "Projeto do desafio 3 da Formação de NodeJS da Rocketseat",
+  "license": "ISC",
+  "author": "Tiago Lopes",
+  "type": "commonjs",
+  "main": "src/server.ts",
+  "scripts": {
+    "dev": "tsx watch src/server.ts"
+  },
+  "devDependencies": {
+    "@types/node": "^22.13.5",
+    "prisma": "^6.4.1",
+    "tsup": "^8.3.6",
+    "tsx": "^4.19.3",
+    "typescript": "^5.7.3"
+  },
+  "dependencies": {
+    "dotenv": "^16.4.7",
+    "fastify": "^5.2.1",
+    "zod": "^3.24.2"
+  }
+}
