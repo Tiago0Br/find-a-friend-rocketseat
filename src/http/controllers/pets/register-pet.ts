@@ -1,28 +1,17 @@
-import { PrismaPetRepository } from '@/repositories/prisma/prisma-pet-repository'
-import { RegisterPetService } from '@/services/register-pet-service'
 import { FastifyReply, FastifyRequest } from 'fastify'
-import { z } from 'zod'
-
+import { PrismaPetRepository } from '@/repositories/prisma/prisma-pet-repository'
+import { registerPetSchema } from '@/schemas/pet-schema'
+import { RegisterPetService } from '@/services/register-pet-service'
 export async function registerPet(
   request: FastifyRequest,
   reply: FastifyReply
 ) {
-  const petBodySchema = z.object({
-    name: z.string(),
-    about: z.string(),
-    age: z.number(),
-    size: z.string(),
-    energy: z.string(),
-    independence: z.string(),
-    environment: z.string()
-  })
+  const { data, success, error } = registerPetSchema.safeParse(request.body)
 
-  const pet = petBodySchema.safeParse(request.body)
-
-  if (!pet.success) {
+  if (!success) {
     return reply.status(400).send({
       message: 'Validation error',
-      issues: pet.error.format()
+      issues: error.issues.map((issue) => issue.message)
     })
   }
 
@@ -30,7 +19,7 @@ export async function registerPet(
   const registerPetService = new RegisterPetService(prismaPetRepository)
 
   const { id } = await registerPetService.execute({
-    data: pet.data
+    data
   })
 
   return reply.status(201).send({ id })

@@ -13,15 +13,70 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+enum Size {
+  VERY_SHORT
+  SHORT
+  MEDIUM
+  LARGE
+}
+
+enum Level {
+  LOW
+  MEDIUM
+  HIGH
+}
+
+enum EnvironmentSize {
+  SMALL
+  MEDIUM
+  LARGE
+}
+
 model Pet {
-  id           String @id @default(uuid())
-  name         String @db.VarChar(50)
-  about        String @db.Text
-  age          Int
-  size         String
-  energy       String
-  independence String
-  environment  String
+  id             String          @id @default(uuid())
+  name           String          @db.VarChar(50)
+  about          String          @db.Text
+  ageInMonths    Int             @map("age_in_months")
+  size           Size
+  energy         Level
+  independence   Level
+  environment    EnvironmentSize
+  organizationId String          @map("organization_id")
+
+  petImages            PetImage[]
+  adoptionRequirements AdoptionRequirement[]
+  organization         Organization          @relation(fields: [organizationId], references: [id])
 
   @@map("pets")
+}
+
+model PetImage {
+  id        String @id @default(uuid())
+  petId     String @map("pet_id")
+  imagePath String @map("image_path")
+
+  pet Pet @relation(fields: [petId], references: [id])
+
+  @@map("pet_images")
+}
+
+model AdoptionRequirement {
+  id          String @id @default(uuid())
+  petId       String @map("pet_id")
+  requirement String
+
+  pet Pet @relation(fields: [petId], references: [id])
+
+  @@map("adoption_requirements")
+}
+
+model Organization {
+  id              String @id @default(uuid())
+  responsibleName String @map("responsible_name")
+  email           String
+  zipcode         String
+  address         String
+  whatsapp        String
+  password        String
+  pets            Pet[]
 }
