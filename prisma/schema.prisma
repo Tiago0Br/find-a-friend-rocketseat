@@ -71,11 +71,16 @@ model AdoptionRequirement {
 }
 
 model Organization {
-  id              String @id @default(uuid())
-  responsibleName String @map("responsible_name")
+  id              String  @id @default(uuid())
+  responsibleName String  @map("responsible_name")
   email           String
   zipcode         String
   address         String
+  number          Int
+  district        String
+  complement      String?
+  city            String  @db.VarChar(50)
+  state           String  @db.VarChar(2)
   whatsapp        String
   password        String
   pets            Pet[]
