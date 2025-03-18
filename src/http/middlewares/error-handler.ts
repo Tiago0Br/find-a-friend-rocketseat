@@ -1,6 +1,7 @@
 import { env } from '@/env'
 import { FastifyError, FastifyReply, FastifyRequest } from 'fastify'
 import { ZodError } from 'zod'
+import { DomainError } from '../errors'
 
 interface Response {
   message: string
@@ -18,6 +19,10 @@ export function errorHandler(error: FastifyError, _: FastifyRequest, reply: Fast
     response.statusCode = 400
     response.message = 'Validation error'
     response.issues = error.errors.map((issue) => issue.message)
+  }
+
+  if (error instanceof DomainError) {
+    response.statusCode = 409
   }
 
   if (response.statusCode === 500 && env.NODE_ENV !== 'production') {

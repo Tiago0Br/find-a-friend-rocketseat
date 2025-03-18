@@ -1,13 +1,10 @@
-import { PrismaOrgRepository } from '@/repositories/prisma/prisma-org-repository'
-import { registerOrgSchema } from '@/schemas/org-schema'
-import { RegisterOrgService } from '@/services/orgs/register-org-service'
 import { FastifyReply, FastifyRequest } from 'fastify'
+import { makeRegisterOrgService } from '@/factories/make-register-org-service'
+import { registerOrgSchema } from '@/schemas/org-schema'
 
 export async function registerOrganization(request: FastifyRequest, reply: FastifyReply) {
   const orgData = registerOrgSchema.parse(request.body)
-
-  const orgRepository = new PrismaOrgRepository()
-  const registerOrgService = new RegisterOrgService(orgRepository)
+  const registerOrgService = makeRegisterOrgService()
 
   const { id } = await registerOrgService.execute({
     orgData

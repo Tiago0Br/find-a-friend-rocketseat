@@ -4,6 +4,17 @@ import { prisma } from '@/lib/prisma'
 
 export class PrismaPetRepository implements PetRepository {
   create(data: Prisma.PetUncheckedCreateInput): Promise<Pet> {
-    return prisma.pet.create({ data })
+    return prisma.pet.create({
+      data: {
+        name: data.name,
+        about: data.about,
+        ageInMonths: data.ageInMonths,
+        size: data.size,
+        energy: data.energy,
+        independence: data.independence,
+        environment: data.environment,
+        organizationId: data.organizationId
+      }
+    })
   }
 }

@@ -11,26 +11,32 @@ export const registerPetSchema = z.object({
     required_error: 'About is required',
     invalid_type_error: 'About must be a string'
   }),
-  age: z
+  ageInMonths: z
     .number({
       required_error: 'Age is required',
       invalid_type_error: 'Age must be a number'
     })
     .positive('Age must be a positive number'),
-  size: z.string({
+  size: z.enum(['VERY_SHORT', 'SHORT', 'MEDIUM', 'LARGE'], {
     required_error: 'Size is required',
     invalid_type_error: 'Size must be a string'
   }),
-  energy: z.string({
+  energy: z.enum(['LOW', 'MEDIUM', 'HIGH'], {
     required_error: 'Energy is required',
     invalid_type_error: 'Energy must be a string'
   }),
-  independence: z.string({
+  independence: z.enum(['LOW', 'MEDIUM', 'HIGH'], {
     required_error: 'Independence is required',
     invalid_type_error: 'Independence must be a string'
   }),
-  environment: z.string({
+  environment: z.enum(['SMALL', 'MEDIUM', 'LARGE'], {
     required_error: 'Environment is required',
     invalid_type_error: 'Environment must be a string'
-  })
+  }),
+  organizationId: z
+    .string({
+      required_error: 'Organization ID is required',
+      invalid_type_error: 'Organization ID must be a string'
+    })
+    .uuid('Organization ID must be a valid UUID')
 })
