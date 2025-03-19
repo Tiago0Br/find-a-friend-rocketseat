@@ -1,3 +1,4 @@
+import bcrypt from 'bcrypt'
 import { Prisma } from '@prisma/client'
 import { OrgAlreadyExists, PasswordDoesNotMatch } from '@/http/errors'
 import { OrgRepository } from '@/repositories/org-repository'
@@ -23,7 +24,21 @@ export class RegisterOrgService {
       throw OrgAlreadyExists.create()
     }
 
-    const org = await this.orgRepository.create(orgData)
+    const passwordHash = await bcrypt.hash(orgData.password, 6)
+
+    const org = await this.orgRepository.create({
+      responsibleName: orgData.responsibleName,
+      email: orgData.email,
+      password: passwordHash,
+      zipcode: orgData.zipcode,
+      address: orgData.address,
+      district: orgData.district,
+      number: orgData.number,
+      complement: orgData.complement,
+      city: orgData.city,
+      state: orgData.state,
+      whatsapp: orgData.whatsapp
+    })
 
     return {
       id: org.id

@@ -57,3 +57,16 @@ export const registerOrgSchema = z.object({
     invalid_type_error: 'Whatsapp must be a string'
   })
 })
+
+export const authenticateOrgSchema = z.object({
+  email: z
+    .string({
+      required_error: 'Email is required',
+      invalid_type_error: 'Email must be a string'
+    })
+    .email('Email must be a valid email'),
+  password: z.string({
+    required_error: 'Password is required',
+    invalid_type_error: 'Password must be a string'
+  })
+})
