@@ -1,7 +1,7 @@
 import { FastifyError, FastifyReply, FastifyRequest } from 'fastify'
 import { ZodError } from 'zod'
 import { env } from '@/env'
-import { DomainError, UnauthorizedError } from '../errors'
+import { DomainError, NotFoundError, UnauthorizedError } from '../errors'
 
 interface Response {
   message: string
@@ -27,6 +27,10 @@ export function errorHandler(error: FastifyError, _: FastifyRequest, reply: Fast
 
   if (error instanceof DomainError) {
     response.statusCode = 409
+  }
+
+  if (error instanceof NotFoundError) {
+    response.statusCode = 404
   }
 
   if (response.statusCode === 500 && env.NODE_ENV !== 'production') {

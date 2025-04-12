@@ -41,3 +41,11 @@ export const findAllPetsSchema = z.object({
     invalid_type_error: 'City must be a string'
   })
 })
+
+export const findPetByIdSchema = z.object({
+  id: z
+    .string({
+      required_error: 'City is required'
+    })
+    .uuid({ message: 'Id must be a valid uuid' })
+})

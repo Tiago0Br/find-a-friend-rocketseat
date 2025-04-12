@@ -30,4 +30,12 @@ export class PrismaPetRepository implements PetRepository {
       }
     })
   }
+
+  findById(id: string): Promise<Pet | null> {
+    return prisma.pet.findUnique({
+      where: {
+        id
+      }
+    })
+  }
 }
