@@ -38,4 +38,16 @@ export class PrismaPetRepository implements PetRepository {
       }
     })
   }
+
+  findByFilter(filters: Partial<Pet>): Promise<Pet[]> {
+    return prisma.pet.findMany({
+      where: {
+        ...filters,
+        name: {
+          mode: 'insensitive',
+          contains: filters.name
+        }
+      }
+    })
+  }
 }
