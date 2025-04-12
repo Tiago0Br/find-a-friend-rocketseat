@@ -1,8 +1,9 @@
 import { PetRepository } from '@/repositories/pet-repository'
-import { Pet, Prisma } from '@prisma/client'
+import { Prisma } from '@prisma/client'
 
 interface RegisterPetServiceRequest {
-  petData: Prisma.PetUncheckedCreateInput
+  petData: Omit<Prisma.PetUncheckedCreateInput, 'organizationId'>
+  organizationId: string
 }
 
 interface RegisterPetServiceResponse {
@@ -11,8 +12,14 @@ interface RegisterPetServiceResponse {
 
 export class RegisterPetService {
   constructor(private petRepository: PetRepository) {}
-  async execute({ petData }: RegisterPetServiceRequest): Promise<RegisterPetServiceResponse> {
-    const pet = await this.petRepository.create(petData)
+  async execute({
+    petData,
+    organizationId
+  }: RegisterPetServiceRequest): Promise<RegisterPetServiceResponse> {
+    const pet = await this.petRepository.create({
+      ...petData,
+      organizationId
+    })
 
     return {
       id: pet.id

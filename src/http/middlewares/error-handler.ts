@@ -1,7 +1,7 @@
-import { env } from '@/env'
 import { FastifyError, FastifyReply, FastifyRequest } from 'fastify'
 import { ZodError } from 'zod'
-import { DomainError } from '../errors'
+import { env } from '@/env'
+import { DomainError, UnauthorizedError } from '../errors'
 
 interface Response {
   message: string
@@ -19,6 +19,10 @@ export function errorHandler(error: FastifyError, _: FastifyRequest, reply: Fast
     response.statusCode = 400
     response.message = 'Validation error'
     response.issues = error.errors.map((issue) => issue.message)
+  }
+
+  if (error instanceof UnauthorizedError) {
+    response.statusCode = 401
   }
 
   if (error instanceof DomainError) {

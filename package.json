@@ -7,11 +7,14 @@
   "type": "commonjs",
   "main": "src/server.ts",
   "scripts": {
-    "dev": "tsx watch src/server.ts"
+    "dev": "tsx watch src/server.ts",
+    "lint": "prettier --check .",
+    "format": "prettier --write ."
   },
   "devDependencies": {
     "@types/bcrypt": "^5.0.2",
     "@types/node": "^22.13.5",
+    "prettier": "^3.5.3",
     "prisma": "^6.4.1",
     "tsup": "^8.3.6",
     "tsx": "^4.19.3",

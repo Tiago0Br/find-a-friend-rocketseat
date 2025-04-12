@@ -17,4 +17,17 @@ export class PrismaPetRepository implements PetRepository {
       }
     })
   }
+
+  findAllByCity(city: string): Promise<Pet[]> {
+    return prisma.pet.findMany({
+      where: {
+        organization: {
+          city: {
+            mode: 'insensitive',
+            equals: city
+          }
+        }
+      }
+    })
+  }
 }

@@ -32,11 +32,12 @@ export const registerPetSchema = z.object({
   environment: z.enum(['SMALL', 'MEDIUM', 'LARGE'], {
     required_error: 'Environment is required',
     invalid_type_error: 'Environment must be a string'
-  }),
-  organizationId: z
-    .string({
-      required_error: 'Organization ID is required',
-      invalid_type_error: 'Organization ID must be a string'
-    })
-    .uuid('Organization ID must be a valid UUID')
+  })
+})
+
+export const findAllPetsSchema = z.object({
+  city: z.string({
+    required_error: 'City is required',
+    invalid_type_error: 'City must be a string'
+  })
 })
